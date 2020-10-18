@@ -22,7 +22,7 @@ function toReadable(number) {
         "nineteen",
     ];
     let dozens = [
-        '',
+        "",
         "",
         "twenty",
         "thirty",
@@ -36,69 +36,66 @@ function toReadable(number) {
     let hundreds;
     let thousands = "thousand";
     let splitter = [];
-    let string = ''
-    string +=  number.toString();
-    if (string.length <3) {
-        // console.log(number.toString());
+    let string = "";
 
-        console.log(teens.length);
-        if (number < 20) {
-            let result = teens.find((item, index, array) => {
-                if (index == number) return item;
-            });
-            console.log(result);
+    let dozensNum = "";
+    let singleNum = "";
 
-            return result;
-        }
+    string += number.toString();
 
-        if (number >= 20 ) {
-            console.log(string[0]);
-
-            let firstNum = dozens.find((item, index, array) => {
-                if (index == string[0]) return item;
-            });
-            console.log(string[1]);
-            let secondNum = teens.find((item, index, array) => {
-                if (index == string[1]) return item;
-            });
-
-
-            console.log(`${firstNum} ${secondNum}`);
-        }
+    if(string <10){
+        singleNum = teens.find((item, index, array) => {
+            if (index == string[0]) return item;
+        });
+        return singleNum;
     }
-    if(string.length > 2){
-            let hundreds =  teens.find((item, index, array) => {
-                if (index == string[0]) return item;
-            }) + ' hundred';
 
-            if (string[1] < 20) {
-                let firstNum = teens.find((item, index, array) => {
-                    if (index == number) return item;
-                });
-            
-            }
-    
-            if (string[1] >= 20 ) {
-                console.log(string[0]);
-    
-                let firstNum = dozens.find((item, index, array) => {
-                    if (index == string[0]) return item;
-                });
-                console.log(string[1]);
-                let secondNum = teens.find((item, index, array) => {
+    if (string.length < 3) {
+        if (string[0] > 1) {
+            dozensNum = dozens.find((item, index, array) => {
+                if (index == string[0]) return item;
+            });
+
+            if (string[1] > 0) {
+                singleNum = teens.find((item, index, array) => {
                     if (index == string[1]) return item;
                 });
-    
-    
-                console.log(`${firstNum} ${secondNum}`);
             }
+        } else if (string < 20) {
+            singleNum = teens.find((item, index, array) => {
+                if (index == string) return item;
+            });
+            
+        }
 
-            console.log(`${hundreds} ${firstNum} ${secondNum}`);
-
+        return `${dozensNum} ${singleNum}`.trim();
     }
 
-    // console.log(number.toString().length);
+    if (string.length > 2) {
+        let hundreds =
+            teens.find((item, index, array) => {
+                if (index == string[0]) return item;
+            }) + " hundred";
+
+        if (string[1] > 1) {
+            dozensNum = dozens.find((item, index, array) => {
+                if (index == string[1]) return item;
+            });
+            if (string[2] > 0) {
+                singleNum = teens.find((item, index, array) => {
+                    if (index == string[2]) return item;
+                });
+            }
+        } else if (string[1] + string[2] < 20 && string[1] + string[2] > 0) {
+            singleNum = teens.find((item, index, array) => {
+                if (index == string[1] + string[2]) return item;
+            });
+
+            return `${hundreds} ${singleNum}`.trim();
+        } else if (string[1] + string[2] == 0) return `${hundreds}`;
+
+        return `${hundreds} ${dozensNum} ${singleNum}`.trim();
+    }
 }
 
-
-console.log(toReadable(187));
+console.log(toReadable(900));
